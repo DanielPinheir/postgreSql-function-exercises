@@ -75,4 +75,36 @@ select nome, idade, email, age(cast(cadastro as timestamp)) as "registration tim
 from usuarios
 where idade < 18;
 
+-- 13 - Faça uma query que retorna o nome, a idade, o email e o tempo
+-- que cada usuario, maior ou igual a 60 anos, possui cadastrado na 
+-- tabela usuarios. O tempo precisa ser uma coluna que retorne apenas
+-- a quantidade de anos, meses, dias em um objeto. 
+-- Ex.: {"years":2,"months":2,"days":19}.
+select nome, idade, email, age(cast(cadastro as date)) as "registration date" 
+from usuarios
+where idade >= 60;
 
+-- 14 - Faça uma query que retorna a categoria e a quantidade de
+-- produtos de cada categoria que não seja nula da tabela farmacia.
+select categoria, sum(estoque) as qtd_product
+from farmacia
+where categoria is not null
+group by categoria;
+
+-- 15 - Faça uma query que retorna a idade e a quantidade de registros de
+-- cada idade, onde a idade seja maior ou igual a 18 anos, na tabela
+-- usuarios.
+select idade, count(id) as num_records
+from usuarios
+where idade >= 18
+group by idade
+order by idade asc;
+
+-- 16 - Faça uma query que retorna as três categorias e a soma do 
+-- estoque de todos os medicamentos de cada categoria, na tabela 
+-- farmacia.
+select categoria, sum(estoque) as qtd
+from farmacia
+group by categoria
+order by qtd desc
+limit 3;
