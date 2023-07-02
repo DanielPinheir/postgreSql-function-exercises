@@ -28,3 +28,51 @@ from farmacia
 where categoria is not null
 group by categoria;
 
+-- 7 - Faça uma query que retorna a soma do estoque disponível 
+-- dos medicamentos sem categoria na tabela farmacia.
+select sum(estoque) as stock_sum
+from farmacia
+where categoria is null;
+
+-- 8 - Faça uma query que retorna a quantidade de medicamentos 
+-- sem categoria na tabela farmacia.
+select count(medicamento) as qtd_medicine
+from farmacia
+where categoria is null;
+
+-- 9 - Faça uma query que retorna uma única coluna com a junção do
+-- nome do medicamento e a categoria entre parenteses de todos os
+-- registros em que a categoria não seja nula da tabela farmacia. 
+-- Ex.: Endocet (green).
+select concat(medicamento, ' (', categoria, ')') as medidicineKind
+from farmacia
+where categoria is not null;
+--10 - Faça uma query que retorna uma única coluna com a junção do
+-- identificador e o nome do medicamento separado por um hífen e a
+-- categoria entre parenteses de todos os registros da tabela farmacia.
+-- Quando a categoria for nula, substituir por (sem categoria). 
+-- Ex.: 1 - Endocet (green) ou 1 - Endocet (sem categoria).
+select concat(id, ' - ', 
+medicamento, ' (', 
+coalesce(categoria, 'sem categoria'), ')') as medidicineKind
+from farmacia;
+
+-- 11 - Faça uma query que retorna o nome, a idade e a data de 
+-- cadastro no formato AAAA-MM-DD de todos os cadastros que 
+-- aconteceram no ano de 2020, na tabela usuarios.
+select nome, idade, cast(cadastro as date) as "registration date" 
+from usuarios
+where cast(cadastro as date) >= '2020-01-01' 
+and cast(cadastro as date) <= '2020-12-31';
+
+-- 12 - Faça uma query que retorna o nome, a idade, o email e o 
+-- tempo que cada usuario menor de 18 anos possui cadastrado na 
+-- tabela usuarios. O tempo precisa ser uma coluna que retorne a 
+-- quantidade de anos, meses, dias, horas, minutos e segundos em um
+-- objeto. Ex.: 
+-- {"years":2,"months":2,"days":19,"hours":8,"minutes":22,"seconds":19}.
+select nome, idade, email, age(cast(cadastro as timestamp)) as "registration time" 
+from usuarios
+where idade < 18;
+
+
